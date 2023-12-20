@@ -4,7 +4,21 @@
 # 6/29/20
 
 
-scorecardRows = ["Aces","Twos","Threes","Fours","Fives","Sixes","3OfAKind","4OfAKind","FullHouse","SmStraight","LgStraight","YAHTZEE","Chance"]
+scorecardRows = [
+	"Aces",
+	"Twos",
+	"Threes",
+	"Fours",
+	"Fives",
+	"Sixes",
+	"3OfAKind",
+	"4OfAKind",
+	"FullHouse",
+	"SmStraight",
+	"LgStraight",
+	"YAHTZEE",
+	"Chance"
+	]
 
 ssPatterns = [[1,1,1,1,0,0],[0,1,1,1,1,0],[0,0,1,1,1,1]]
 lsPatterns = [[1,1,1,1,1,0],[0,1,1,1,1,1]]

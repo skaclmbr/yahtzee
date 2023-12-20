@@ -2,6 +2,7 @@
 # inviting programmed players to compete
 # Scott Anderson
 # Jun 28, 2020
+# v0.01 - not functional yet!
 
 import sys
 import random
@@ -14,7 +15,22 @@ numGames = 1
 
 players = []
 
-scorecardRows = ["Aces","Twos","Threes","Fours","Fives","Sixes","3OfAKind","4OfAKind","FullHouse","SmStraight","LgStraight","YAHTZEE","Chance"]
+scorecardRows = [
+	"Aces",
+	"Twos",
+	"Threes",
+	"Fours",
+	"Fives",
+	"Sixes",
+	"3OfAKind",
+	"4OfAKind",
+	"FullHouse",
+	"SmStraight",
+	"LgStraight",
+	"YAHTZEE",
+	"Chance"
+	]
+
 nl = "\n"
 
 class player:
@@ -47,11 +63,38 @@ def rolldie():	return random.randint(1,6)
 def main(): #game play
 
 	#setup players
-	players.append(player(p1.__name__,p1.rollDecision,p1.scoreDecision))
+	players.append(
+		player(
+			p1.__name__,
+			p1.rollDecision,
+			p1.scoreDecision
+			)
+		)
 	
-	if 'p2' in sys.modules: players.append(player(p2.__name__,p2.rollDecision,p2.scoreDecision))
-	if 'p3' in sys.modules: players.append(player(p3.__name__,p3.rollDecision,p3.scoreDecision))
-	if 'p4' in sys.modules: players.append(player(p4.__name__,p4.rollDecision,p4.scoreDecision))
+	if 'p2' in sys.modules: players.append(
+		player(
+			p2.__name__,
+			p2.rollDecision,
+			p2.scoreDecision
+			)
+		)
+
+	if 'p3' in sys.modules: players.append(
+		player(
+			p3.__name__,
+			p3.rollDecision,
+			p3.scoreDecision
+			)
+		)
+
+	if 'p4' in sys.modules: players.append(
+		player(
+			p4.__name__,
+			p4.rollDecision,
+			p4.scoreDecision
+			)
+		)
+
 	for p in players:
 		print (str(p.name))
 
@@ -76,14 +119,14 @@ def main(): #game play
 
 				r=1
 				dice = [0,0,0,0,0] # holder for die roll
-				while r<=numRolls:
+				while r <= numRolls:
 					#print("== ROLL " + str(r) + " ==" + nl)
 
 					
-					if r==1:  #first time, roll all die
+					if r == 1:  #first time, roll all die
 						bRollDie = [1,1,1,1,1]
 					else: #every other roll, get info from player's rollDecision function
-						bRollDie = p.rollDecision(r,dice)
+						bRollDie = p.rollDecision(r, dice)
 
 					#print(bRollDie)
 
@@ -98,10 +141,18 @@ def main(): #game play
 				## TURN COMPLETE
 				print(p.name + " turn over")
 
-				scoreRow = p.scoreDecision(dice,p.currGameCard)
-				turnScore = s.scorePlay(scoreRow,dice)
-				p.currGameCard.setScore(scoreRow,turnScore)
-				print("= score " + scoreRow + ": " + str(p.currGameCard.getScoreRow(scoreRow))+" =" + nl)
+				scoreRow = p.scoreDecision(dice, p.currGameCard)
+				turnScore = s.scorePlay(scoreRow, dice)
+				p.currGameCard.setScore(scoreRow, turnScore)
+
+				print(
+					"= score " + 
+					scoreRow + 
+					": " + 
+					str(p.currGameCard.getScoreRow(scoreRow))+
+					" =" + 
+					nl
+					)
 
 				############################
 				## TESTING
