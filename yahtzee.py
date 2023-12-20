@@ -141,9 +141,10 @@ def main(): #game play
 
 
 					# TESTING
+					# use to fix dice combination for testing
 					dice = [1,1,1,1,2]
 					# END TESTING
-					
+
 					print(" roll " + str(r) + " " + str(dice))
 
 					r += 1
