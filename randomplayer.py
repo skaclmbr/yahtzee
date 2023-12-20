@@ -16,12 +16,19 @@ def rollDecision(roll,dice):
 	# insert algorithm here - set rollDie to boolean array of dice to roll
 	#TESTING
 	# rollDie = [0,0,1,0,0]
-		
-	rollDie = [1,1,1,1,1]
+
+	rollDie = []
+	f = 1
+	while f <= 5:
+		# loop through each die face, select random boolean value to roll
+		rollDie.append(random.choice([True, False]))
+		f += 1
+	
+	print(rollDie)
+	# rollDie = [1,1,1,1,1]
 
 	# end algorithm
 	################################################################
-
 
 	return rollDie
 
@@ -31,22 +38,27 @@ def scoreDecision (dice, scorecard):
 	#	dice = array of dice values from last roll e.g., [3,2,6,4,1]
 	#	scorecard = dictionary of current scorecard
 	#OUTPUT:
-	#	row = row to use for score
+	#	row = row name to use for score
 
 	################################################################
 	#insert algorithm here - set rowChoice variable to scorecard row chosen
 	#TESTING
+	# for now, selects the blank row with the maximum score value
 
 	#write code here to evaluate and choose the row that results in the highest score
 
 	maxRow = ""
 	maxVal = 0
 
-	# print(str(len(s.scorecardRows)))
+	print(str(len(s.scorecardRows)))
+	# loop through scorecard
 	for r in s.scorecardRows:
-		# print("SR: " + r)
+		print("eval SR: " + r)
+		# check to see if row is already used.
 		if scorecard.emptyRow(r):
+			# calculate the scorecard value
 			value = s.scorePlay(r,dice)
+			print("score:" + str(value) )
 			if value > maxVal:
 				maxVal = value
 				maxRow = r

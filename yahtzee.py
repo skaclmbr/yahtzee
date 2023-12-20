@@ -8,8 +8,12 @@ import sys
 import random
 import scoring as s
 
+# define players by pointing to python script defining behavior
 import randomplayer as p1
 import scott as p2
+
+# import player3 as p3
+# import player4 as p4
 
 numGames = 1
 
@@ -118,14 +122,15 @@ def main(): #game play
 				print("== " + p.name + "'s turn ==")
 
 				r=1
-				dice = [0,0,0,0,0] # holder for die roll
-				while r <= numRolls:
-					#print("== ROLL " + str(r) + " ==" + nl)
 
+				# holder for die roll
+				# 0 values mean no roll
+				dice = [0,0,0,0,0] 
+				while r <= numRolls:
 					
 					if r == 1:  #first time, roll all die
-						bRollDie = [1,1,1,1,1]
-					else: #every other roll, get info from player's rollDecision function
+						bRollDie = [True,True,True,True,True]
+					else: #all other rolls, get info from player's rollDecision function
 						bRollDie = p.rollDecision(r, dice)
 
 					#print(bRollDie)
@@ -134,6 +139,11 @@ def main(): #game play
 					for i,d in enumerate(bRollDie):
 						if d: dice[i] = rolldie()
 
+
+					# TESTING
+					dice = [1,1,1,1,2]
+					# END TESTING
+					
 					print(" roll " + str(r) + " " + str(dice))
 
 					r += 1

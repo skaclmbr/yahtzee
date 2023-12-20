@@ -20,6 +20,7 @@ scorecardRows = [
 	"Chance"
 	]
 
+# INCORRECT - WILL FIX LATER
 ssPatterns = [[1,1,1,1,0,0],[0,1,1,1,1,0],[0,0,1,1,1,1]]
 lsPatterns = [[1,1,1,1,1,0],[0,1,1,1,1,1]]
 
@@ -101,8 +102,12 @@ def checkPattern(bFacesArray,cFaces):
 
 def tallyDieFaces(dice):
 	# diceFaces = {1:0,2:0,3:0,4:0,5:0,6:0} #dictionary to tally number of face values in each
-	countFaces = [0,0,0,0,0,0] #dictionary to tally number of face values in each
-	sumFaces = [0,0,0,0,0,0] #dictionary to tally number of face values in each
+	# array to tally number of face values in each position
+	# example: dice = [1,1,4,4,2] -> countFaces = [2,1,0,2,0,0]
+	countFaces = [0,0,0,0,0,0]
+	# array to tally number of face values in each
+	# example: dice = [1,1,4,4,2] -> countFaces = [2,2,0,8,0,0]
+	sumFaces = [0,0,0,0,0,0] 
 
 	#loop through dice values
 	for i,d in enumerate(dice):	
@@ -131,10 +136,11 @@ def scorePlay(row, dice):
 	passes = False
 	score = 0
 
-	# print(diceFaceCount)
-	# print(diceFaceSum)
+	print(diceFaceCount)
+	print(diceFaceSum)
 	if row=="Aces":
 		score = diceFaceSum[0]
+
 	elif row=="Twos":
 		score = diceFaceSum[1]
 
