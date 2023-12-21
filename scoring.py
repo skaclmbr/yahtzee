@@ -21,6 +21,8 @@ scorecardRows = [
 	]
 
 # INCORRECT - WILL FIX LATER
+# these are binary indexes - each element corresponds to face value
+# e.g., [1,0,1,0,0,1] -> at least one 1, one 3, and one 6 present
 ssPatterns = [[1,1,1,1,0,0],[0,1,1,1,1,0],[0,0,1,1,1,1]]
 lsPatterns = [[1,1,1,1,1,0],[0,1,1,1,1,1]]
 
@@ -31,7 +33,7 @@ class scorecard:
 		self.card = {} #dicationary for storing card scores
 		
 		#setup scorecard rows
-		for r in scorecardRows:	self.card[r]="NA"
+		for r in scorecardRows:	self.card[r] = "NA"
 
 	def emptyRow(self,row):
 		if row:
@@ -39,9 +41,18 @@ class scorecard:
 			rowStatus = False
 			#print (row + ": " + str(self.card[row]))
 			# print(str(self.card))
-			if self.card[row]=="NA": rowStatus = True
+			if self.card[row] == "NA": rowStatus = True
 
 			return rowStatus
+
+	def getEmptyRows(self):
+		# return array of empty rows remaining
+		er = []
+		for r in scorecardRows:
+			if self.card[r] == "NA":
+				er.append(r)
+
+		return er
 
 	def getScoreRow(self,row):
 		# print("get score row: " + str(row))

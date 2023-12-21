@@ -50,9 +50,10 @@ def scoreDecision (dice, scorecard):
 	maxRow = ""
 	maxVal = 0
 
-	print(str(len(s.scorecardRows)))
+	print(scorecard.card)
 	# loop through scorecard
-	for r in s.scorecardRows:
+	for r in scorecard.getEmptyRows():
+	# for r in s.scorecardRows:
 		print("eval SR: " + r)
 		# check to see if row is already used.
 		if scorecard.emptyRow(r):

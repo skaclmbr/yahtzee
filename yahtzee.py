@@ -42,22 +42,27 @@ class player:
 		self.name = name
 		self.rollDecision = rollDecision
 		self.scoreDecision = scoreDecision
-		self.currGame = 0
+		self.currGameNum = 0
 		self.currGameCard = {}
+		# self.currGameCard = self.startNewGame(self.currGame) #start a game by default
 		self.scorecards = {} #dictionary of scorecards - "1":{scorecard object}
 	
-	def startGame(self,game):
+	def startNewGame(self,gameNum, game):
 		#create new game card
-		self.currGame = game
-		self.currGameCard = s.scorecard(game)
+		self.currGameNum = gameNum # number of the game
+		self.currGameCard = game
+		# self.currGameCard = s.scorecard(game)
+
+	def getCurrGameCard(self):
+		return self.currGameCard
 
 	def endGame(self,game):
 		finalScore = self.currGameCard.scoreFinal()
-		self.scorecards[self.currGame] = self.currGameCard
+		self.scorecards[self.currGameNum] = self.currGameCard
 
 		#reset values
 		self.currGameCard = {}
-		self.currGame = 0
+		self.currGameNum = 0
 
 		return finalScore
 
@@ -113,7 +118,8 @@ def main(): #game play
 		numRolls = 3
 
 		#start game
-		for p in players: p.startGame(g)
+		for p in players: 
+			p.startNewGame(g, s.scorecard(g))
 
 		t=1
 		while t<=numTurns:
