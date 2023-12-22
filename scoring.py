@@ -3,6 +3,7 @@
 # Scott Anderson
 # 6/29/20
 
+import yahtzee as y
 
 scorecardRows = [
 	"Aces",
@@ -17,8 +18,20 @@ scorecardRows = [
 	"SmStraight",
 	"LgStraight",
 	"YAHTZEE",
+	"YAHTZEEBonus1",
+	"YAHTZEEBonus2",
+	"YAHTZEEBonus3",
 	"Chance"
 	]
+
+topRows = [
+	"Aces",
+	"Twos",
+	"Threes",
+	"Fours",
+	"Fives",
+	"Sixes"
+]
 
 # INCORRECT - WILL FIX LATER
 # these are binary indexes - each element corresponds to face value
@@ -31,7 +44,7 @@ class scorecard:
 		#pass game number
 		self.game = g
 		self.card = {} #dicationary for storing card scores
-		
+		self.usedRows = []
 		#setup scorecard rows
 		for r in scorecardRows:	self.card[r] = "NA"
 
@@ -54,23 +67,25 @@ class scorecard:
 
 		return er
 
+
 	def getScoreRow(self,row):
 		# print("get score row: " + str(row))
 		if row:
 			return self.card[row]
 
-	def getScore(self):
+	def getScore(self, player):
 
 		#print current scorecard
-		print("== " + self.name + " Scorecard ==")
+		print("== " + player + "'s Scorecard ==")
 		for r,v in self.card.items():
-			print(r+": " + str(v) +nl)
+			print(r+": " + str(v) + y.nl)
 
 
 	def setScore(self,row,score):
 		msg = "Scored " + str(score) + " in " + row
 		if self.emptyRow(row):
 			self.card[row] = score
+			self.usedRows.append(row) #add to used row list
 		else:
 			#already used
 			msg = "Row already used."
@@ -89,7 +104,21 @@ class scorecard:
 	def scoreFinal(self):
 		#adds up scorecard
 		## INSERT CODE HERE TO CALCULATE FINAL SCORE
-		score = 10
+
+		c = self.card
+		score = 0
+		trsum = 0
+		brsum = 0
+		for r in self.usedRows:
+			if r in topRows:
+				trsum += self.card[r]
+			else:
+				brsum += self.card[r]
+
+		if trsum >= 63:
+			trsum += 35
+
+		score = trsum + brsum
 
 		#Add score to array
 		self.card["final"] = score
@@ -207,7 +236,7 @@ def scorePlay(row, dice):
 		if passes:
 			score = 40
 
-	elif row=="YAHTZEE":
+	elif row in ["YAHTZEE", "YAHTZEEBonus1", "YAHTZEEBonus2", "YAHTZEEBonus3"]:
 		for i,d in enumerate(diceFaceCount):
 			if d==5: passes = True
 

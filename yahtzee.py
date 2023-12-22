@@ -9,8 +9,8 @@ import random
 import scoring as s
 
 # define players by pointing to python script defining behavior
-import randomplayer as p1
-import scott as p2
+import players.randomplayer as p1
+import players.scott as p2
 
 # import player3 as p3
 # import player4 as p4
@@ -19,21 +19,21 @@ numGames = 1
 
 players = []
 
-scorecardRows = [
-	"Aces",
-	"Twos",
-	"Threes",
-	"Fours",
-	"Fives",
-	"Sixes",
-	"3OfAKind",
-	"4OfAKind",
-	"FullHouse",
-	"SmStraight",
-	"LgStraight",
-	"YAHTZEE",
-	"Chance"
-	]
+# scorecardRows = [
+# 	"Aces",
+# 	"Twos",
+# 	"Threes",
+# 	"Fours",
+# 	"Fives",
+# 	"Sixes",
+# 	"3OfAKind",
+# 	"4OfAKind",
+# 	"FullHouse",
+# 	"SmStraight",
+# 	"LgStraight",
+# 	"YAHTZEE",
+# 	"Chance"
+# 	]
 
 nl = "\n"
 
@@ -148,15 +148,12 @@ def main(): #game play
 
 					# TESTING
 					# use to fix dice combination for testing
-					dice = [1,1,1,1,2]
+					# dice = [1,1,1,1,2]
 					# END TESTING
 
 					print(" roll " + str(r) + " " + str(dice))
 
 					r += 1
-
-				## TURN COMPLETE
-				print(p.name + " turn over")
 
 				scoreRow = p.scoreDecision(dice, p.currGameCard)
 				turnScore = s.scorePlay(scoreRow, dice)
@@ -170,6 +167,9 @@ def main(): #game play
 					" =" + 
 					nl
 					)
+
+				## TURN COMPLETE
+				print(p.name + " turn over")
 
 				############################
 				## TESTING
@@ -194,7 +194,8 @@ def main(): #game play
 		## END GAME
 		## Record game data
 		for p in players:
-			print (p.name + ": " + str(p.endGame(g)))
+			print(p.currGameCard.getScore(p.name))
+			print (p.name + "'s final score: " + str(p.endGame(g)))
 
 		g += 1	
 
