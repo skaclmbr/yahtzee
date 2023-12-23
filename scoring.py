@@ -52,8 +52,6 @@ class scorecard:
 		if row:
 			#check to see if score already filled
 			rowStatus = False
-			#print (row + ": " + str(self.card[row]))
-			# print(str(self.card))
 			if self.card[row] == "NA": rowStatus = True
 
 			return rowStatus
@@ -69,7 +67,6 @@ class scorecard:
 
 
 	def getScoreRow(self,row):
-		# print("get score row: " + str(row))
 		if row:
 			return self.card[row]
 
@@ -176,8 +173,8 @@ def scorePlay(row, dice):
 	passes = False
 	score = 0
 
-	print(diceFaceCount)
-	print(diceFaceSum)
+	# print(diceFaceCount)
+	# print(diceFaceSum)
 	if row=="Aces":
 		score = diceFaceSum[0]
 

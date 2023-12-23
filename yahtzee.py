@@ -7,6 +7,7 @@
 import sys
 import random
 import scoring as s
+import json
 
 # define players by pointing to python script defining behavior
 import players.randomplayer as p1
@@ -15,25 +16,7 @@ import players.scott as p2
 # import player3 as p3
 # import player4 as p4
 
-numGames = 1
-
 players = []
-
-# scorecardRows = [
-# 	"Aces",
-# 	"Twos",
-# 	"Threes",
-# 	"Fours",
-# 	"Fives",
-# 	"Sixes",
-# 	"3OfAKind",
-# 	"4OfAKind",
-# 	"FullHouse",
-# 	"SmStraight",
-# 	"LgStraight",
-# 	"YAHTZEE",
-# 	"Chance"
-# 	]
 
 nl = "\n"
 
@@ -44,25 +27,23 @@ class player:
 		self.scoreDecision = scoreDecision
 		self.currGameNum = 0
 		self.currGameCard = {}
-		# self.currGameCard = self.startNewGame(self.currGame) #start a game by default
-		self.scorecards = {} #dictionary of scorecards - "1":{scorecard object}
+		self.scorecards = [] #list of scorecards - {scorecard object}
 	
 	def startNewGame(self,gameNum, game):
 		#create new game card
 		self.currGameNum = gameNum # number of the game
 		self.currGameCard = game
-		# self.currGameCard = s.scorecard(game)
 
 	def getCurrGameCard(self):
 		return self.currGameCard
 
-	def endGame(self,game):
+	def endGame(self):
 		finalScore = self.currGameCard.scoreFinal()
-		self.scorecards[self.currGameNum] = self.currGameCard
+		self.scorecards.append(self.currGameCard.card)
 
 		#reset values
 		self.currGameCard = {}
-		self.currGameNum = 0
+		self.currGameNum += 1
 
 		return finalScore
 
@@ -106,10 +87,12 @@ def main(): #game play
 
 	for p in players:
 		print (str(p.name))
+		print(p.scorecards)
+
 
 	numPlayers = len(players)
 	bRollDie = [1,1,1,1,1] #boolean array determining which dice to roll
-
+	numGames = 10
 	g=1
 	while g<=numGames:
 		# 13 turns in a full game
@@ -134,17 +117,22 @@ def main(): #game play
 				dice = [0,0,0,0,0] 
 				while r <= numRolls:
 					
+					# GET ROLL DECISION
 					if r == 1:  #first time, roll all die
 						bRollDie = [True,True,True,True,True]
-					else: #all other rolls, get info from player's rollDecision function
-						bRollDie = p.rollDecision(r, dice)
 
-					#print(bRollDie)
+					else: #all other rolls, get info from player's rollDecision function
+
+						rollDecision = p.rollDecision(r, dice)
+						if rollDecision["rollAgain"]: # roll again
+							bRollDie = rollDecision["rollDie"]
+
+						else: # done rolling, break out of loop
+							break
 
 					# ROLL DICE - determine new roll values
 					for i,d in enumerate(bRollDie):
 						if d: dice[i] = rolldie()
-
 
 					# TESTING
 					# use to fix dice combination for testing
@@ -171,34 +159,32 @@ def main(): #game play
 				## TURN COMPLETE
 				print(p.name + " turn over")
 
-				############################
-				## TESTING
-				## run through dice combinations
-				#scorecardRows = ["Aces","Twos","Threes","Fours","Fives","Sixes","3OfAKind","4OfAKind","FullHouse","SmStraight","LgStraight","YAHTZEE","Chance"]
-				# first 13 rolls, follow this order of items
-				# rollCombos = [[1,1,1,1,1],[2,2,2,2,2],[3,3,3,3,3],[4,4,4,4,4],[5,5,5,5,5],[6,6,6,6,6],[3,3,3,2,1],[4,4,4,4,1],[2,2,3,3,3],[4,3,2,1,6],[6,5,4,3,2],[5,5,5,5,5],[3,5,2,1,2]]
-				# dice = rollCombos[r-1]
-				# scoreRow = scorecardRows[roll-1] #TESTING
-				# rollScore = s.scorePlay(scoreRow,dice) #TESTING
-				############################
 		
 			t +=1 #NEXT TURN
 
 
-
-			#TESTING
-			# if t>1:
-			# 	player1.getScore()
-			# 	player1.getGameScores()
-			# 	break
 		## END GAME
 		## Record game data
 		for p in players:
 			print(p.currGameCard.getScore(p.name))
-			print (p.name + "'s final score: " + str(p.endGame(g)))
+			print (p.name + "'s final score: " + str(p.endGame()))
 
 		g += 1	
 
+	## CALCULATE FINAL AVERAGE SCORES
+	# calculate final stats
+	for p in players:
+		sumFinalScore = 0
+		numGames = 0
+		for g in p.scorecards:
+
+			sumFinalScore += g["final"]
+			numGames +=1
+
+		avgFinalScore = sumFinalScore/numGames
+
+		print("== Player: " + p.name + " ==")
+		print("avg final score: " + str(avgFinalScore))
 
 if __name__ == '__main__':
 	main()

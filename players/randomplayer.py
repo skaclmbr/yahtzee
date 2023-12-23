@@ -1,21 +1,38 @@
 # Player
-# Test Player
+# Random Test Player
 # Scott Anderson
-# 6/28/20
+# 12/23/23
 import random
 import scoring as s
 
+########################################################################
+## Random Player
+# chooses roll combination randomly
+# scores maximum available row
+
+########################################################################
+## Player library must have two functions:
+# rollDecision() to deterime which dice to roll (or whether to roll)
+# scoreDecision() to determine how to score the turn
+
+## see the scoring library for tools to help with scoring:
+# tallydiefaces(dice) retunrns two boolean, six element arrays:
+#		"count" - count of die for each die face
+#		"sum" - sum of die for each die face
+#
+# scorePlay (row, dice)
+#		returns the score for a given score row and dice combination
+
 def rollDecision(roll,dice):
 	#INPUTS:
-	#	roll = the rolls completed (2 or 3)
+	#	roll = the roll number (2 or 3)
 	#	dice = array of dice values from last roll e.g., [3,2,6,4,1]
 	#OUTPUT:
+	# 	rollAgain = boolean determining if player should roll again
 	#	rollDie = boolean array of dice to roll e.g., [0,0,1,0,0]
 
 	################################################################
 	# insert algorithm here - set rollDie to boolean array of dice to roll
-	#TESTING
-	# rollDie = [0,0,1,0,0]
 
 	rollDie = []
 	f = 1
@@ -24,13 +41,16 @@ def rollDecision(roll,dice):
 		rollDie.append(random.choice([True, False]))
 		f += 1
 	
-	print(rollDie)
-	# rollDie = [1,1,1,1,1]
+	rollAgain = random.choice([True, False])
 
 	# end algorithm
 	################################################################
 
-	return rollDie
+	result = {
+		"rollAgain": rollAgain,
+		"rollDie": rollDie
+	}
+	return result
 
 def scoreDecision (dice, scorecard):
 	#decide how to score the final roll
@@ -53,18 +73,13 @@ def scoreDecision (dice, scorecard):
 	print(scorecard.card)
 	# loop through scorecard
 	for r in scorecard.getEmptyRows():
-	# for r in s.scorecardRows:
-		# print("eval SR: " + r)
 
 		# calculate the scorecard value
 		value = s.scorePlay(r,dice)
-		# print("score:" + str(value) )
 		if value > maxVal:
 			maxVal = value
 			maxRow = r
 
-	# rowItem = random.randint(0,12)
-	# rowChoice = scorecardRows[rowItem]
 	rowChoice = maxRow
 
 	#end algorithm
